@@ -1,0 +1,118 @@
+<UserControl x:Class="SlaGuardianX.UI.Views.Modules.RealTimeMonitoringView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="Transparent">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="24">
+        <StackPanel>
+            <TextBlock Text="Real-Time Monitoring" Style="{StaticResource PageTitle}"/>
+            <TextBlock Text="Live network telemetry with auto-refresh every 2 seconds" Style="{StaticResource PageSubtitle}" Margin="0,0,0,16"/>
+
+            <!-- Controls -->
+            <Border Style="{StaticResource Card}" Margin="0,0,0,12" Padding="14">
+                <DockPanel>
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                        <Button Content="Start" Command="{Binding StartMonitoringCommand}" Style="{StaticResource PrimaryButton}" Margin="0,0,8,0"/>
+                        <Button Content="Stop" Command="{Binding StopMonitoringCommand}" Style="{StaticResource DangerButton}" Margin="0,0,8,0"/>
+                        <Button Content="Refresh" Command="{Binding RefreshTelemetryCommand}" Style="{StaticResource SecondaryButton}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Border Background="#10FFFFFF" CornerRadius="4" Padding="8,4" Margin="0,0,8,0">
+                            <TextBlock Foreground="{StaticResource TextMutedBrush}" FontSize="11">
+                                <Run Text="Updated: "/><Run Text="{Binding LastUpdated}" Foreground="{StaticResource AccentCyanBrush}"/>
+                            </TextBlock>
+                        </Border>
+                        <Border Background="#10FFFFFF" CornerRadius="4" Padding="8,4">
+                            <TextBlock Foreground="{StaticResource TextMutedBrush}" FontSize="11">
+                                <Run Text="Points: "/><Run Text="{Binding DataPointsCollected}" Foreground="{StaticResource AccentCyanBrush}"/>
+                            </TextBlock>
+                        </Border>
+                    </StackPanel>
+                </DockPanel>
+            </Border>
+
+            <!-- Status -->
+            <Border Style="{StaticResource Card}" Margin="0,0,0,12" Padding="12">
+                <DockPanel>
+                    <Ellipse Width="8" Height="8" Margin="0,0,8,0" VerticalAlignment="Center">
+                        <Ellipse.Style>
+                            <Style TargetType="Ellipse">
+                                <Setter Property="Fill" Value="#FF9800"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsMonitoring}" Value="True">
+                                        <Setter Property="Fill" Value="#00E676"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                    <TextBlock Text="{Binding StatusMessage}" Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center"/>
+                </DockPanel>
+            </Border>
+
+            <!-- Live Telemetry Cards -->
+            <UniformGrid Columns="5" Margin="0,0,0,12">
+                <Border Style="{StaticResource Card}" Margin="0,0,6,0" Padding="14">
+                    <StackPanel>
+                        <TextBlock Text="BANDWIDTH" Style="{StaticResource CardLabel}"/>
+                        <TextBlock Style="{StaticResource CardValue}"><Run Text="{Binding Bandwidth, StringFormat='{}{0:F1}'}" Foreground="{StaticResource AccentCyanBrush}"/><Run Text=" Mbps" FontSize="11" Foreground="{StaticResource TextMutedBrush}"/></TextBlock>
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource Card}" Margin="3,0" Padding="14">
+                    <StackPanel>
+                        <TextBlock Text="LATENCY" Style="{StaticResource CardLabel}"/>
+                        <TextBlock Style="{StaticResource CardValue}"><Run Text="{Binding Latency, StringFormat='{}{0:F0}'}" Foreground="#FF9800"/><Run Text=" ms" FontSize="11" Foreground="{StaticResource TextMutedBrush}"/></TextBlock>
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource Card}" Margin="3,0" Padding="14">
+                    <StackPanel>
+                        <TextBlock Text="PACKET LOSS" Style="{StaticResource CardLabel}"/>
+                        <TextBlock Style="{StaticResource CardValue}"><Run Text="{Binding PacketLoss, StringFormat='{}{0:F2}'}" Foreground="#FF5252"/><Run Text="%" FontSize="11" Foreground="{StaticResource TextMutedBrush}"/></TextBlock>
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource Card}" Margin="3,0" Padding="14">
+                    <StackPanel>
+                        <TextBlock Text="JITTER" Style="{StaticResource CardLabel}"/>
+                        <TextBlock Style="{StaticResource CardValue}"><Run Text="{Binding Jitter, StringFormat='{}{0:F1}'}" Foreground="#AB47BC"/><Run Text=" ms" FontSize="11" Foreground="{StaticResource TextMutedBrush}"/></TextBlock>
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource Card}" Margin="6,0,0,0" Padding="14">
+                    <StackPanel>
+                        <TextBlock Text="UPTIME" Style="{StaticResource CardLabel}"/>
+                        <TextBlock Style="{StaticResource CardValue}"><Run Text="{Binding Uptime, StringFormat='{}{0:F1}'}" Foreground="#00E676"/><Run Text="%" FontSize="11" Foreground="{StaticResource TextMutedBrush}"/></TextBlock>
+                    </StackPanel>
+                </Border>
+            </UniformGrid>
+
+            <!-- Statistics Row -->
+            <UniformGrid Columns="3" Margin="0,0,0,12">
+                <Border Style="{StaticResource Card}" Margin="0,0,6,0" Padding="14">
+                    <StackPanel>
+                        <TextBlock Text="PEAK BANDWIDTH" Style="{StaticResource CardLabel}"/>
+                        <TextBlock Style="{StaticResource CardValue}"><Run Text="{Binding PeakBandwidth, StringFormat='{}{0:F1}'}" Foreground="#00E676"/><Run Text=" Mbps" FontSize="11" Foreground="{StaticResource TextMutedBrush}"/></TextBlock>
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource Card}" Margin="3,0" Padding="14">
+                    <StackPanel>
+                        <TextBlock Text="MIN BANDWIDTH" Style="{StaticResource CardLabel}"/>
+                        <TextBlock Style="{StaticResource CardValue}"><Run Text="{Binding MinBandwidth, StringFormat='{}{0:F1}'}" Foreground="#FF5252"/><Run Text=" Mbps" FontSize="11" Foreground="{StaticResource TextMutedBrush}"/></TextBlock>
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource Card}" Margin="6,0,0,0" Padding="14">
+                    <StackPanel>
+                        <TextBlock Text="AVG BANDWIDTH" Style="{StaticResource CardLabel}"/>
+                        <TextBlock Style="{StaticResource CardValue}"><Run Text="{Binding AvgBandwidth, StringFormat='{}{0:F1}'}" Foreground="{StaticResource AccentCyanBrush}"/><Run Text=" Mbps" FontSize="11" Foreground="{StaticResource TextMutedBrush}"/></TextBlock>
+                    </StackPanel>
+                </Border>
+            </UniformGrid>
+
+            <!-- Event Log -->
+            <Border Style="{StaticResource Card}" Padding="14">
+                <StackPanel>
+                    <TextBlock Text="Recent Events" Foreground="{StaticResource TextPrimaryBrush}" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                    <ListBox ItemsSource="{Binding RecentEvents}" Background="Transparent" BorderThickness="0" MaxHeight="200"
+                             Foreground="{StaticResource TextSecondaryBrush}" FontFamily="Consolas" FontSize="11"/>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

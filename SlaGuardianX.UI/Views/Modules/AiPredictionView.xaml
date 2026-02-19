@@ -1,0 +1,57 @@
+<UserControl x:Class="SlaGuardianX.UI.Views.Modules.AiPredictionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="Transparent">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="24">
+        <StackPanel>
+            <TextBlock Text="AI Prediction Engine" Style="{StaticResource PageTitle}"/>
+            <TextBlock Text="Machine learning bandwidth forecasting and SLA breach prediction" Style="{StaticResource PageSubtitle}" Margin="0,0,0,16"/>
+
+            <Border Style="{StaticResource Card}" Margin="0,0,0,12" Padding="12">
+                <DockPanel>
+                    <TextBlock Text="{Binding StatusMessage}" Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center"/>
+                    <Button Content="Run Prediction" Command="{Binding RunPredictionCommand}" Style="{StaticResource AccentPurpleButton}" DockPanel.Dock="Right" HorizontalAlignment="Right"/>
+                </DockPanel>
+            </Border>
+
+            <UniformGrid Columns="4" Margin="0,0,0,12">
+                <Border Style="{StaticResource Card}" Margin="0,0,6,0" Padding="14">
+                    <StackPanel><TextBlock Text="PREDICTED BW" Style="{StaticResource CardLabel}"/>
+                        <TextBlock Style="{StaticResource CardValue}"><Run Text="{Binding BandwidthForecast, StringFormat='{}{0:F1}'}" Foreground="#AB47BC"/><Run Text=" Mbps" FontSize="11" Foreground="{StaticResource TextMutedBrush}"/></TextBlock></StackPanel>
+                </Border>
+                <Border Style="{StaticResource Card}" Margin="3,0" Padding="14">
+                    <StackPanel><TextBlock Text="CURRENT BW" Style="{StaticResource CardLabel}"/>
+                        <TextBlock Style="{StaticResource CardValue}"><Run Text="{Binding CurrentBandwidth, StringFormat='{}{0:F1}'}" Foreground="{StaticResource AccentCyanBrush}"/><Run Text=" Mbps" FontSize="11" Foreground="{StaticResource TextMutedBrush}"/></TextBlock></StackPanel>
+                </Border>
+                <Border Style="{StaticResource Card}" Margin="3,0" Padding="14">
+                    <StackPanel><TextBlock Text="AI CONFIDENCE" Style="{StaticResource CardLabel}"/>
+                        <TextBlock Style="{StaticResource CardValue}"><Run Text="{Binding AiConfidence}" Foreground="#00E676"/><Run Text="%" FontSize="11" Foreground="{StaticResource TextMutedBrush}"/></TextBlock></StackPanel>
+                </Border>
+                <Border Style="{StaticResource Card}" Margin="6,0,0,0" Padding="14">
+                    <StackPanel><TextBlock Text="DATA POINTS" Style="{StaticResource CardLabel}"/>
+                        <TextBlock Text="{Binding DataPointsUsed}" Style="{StaticResource CardValue}" Foreground="{StaticResource AccentCyanBrush}"/></StackPanel>
+                </Border>
+            </UniformGrid>
+
+            <UniformGrid Columns="2" Margin="0,0,0,12">
+                <Border Style="{StaticResource Card}" Margin="0,0,6,0" Padding="16">
+                    <StackPanel>
+                        <TextBlock Text="SLA Breach Prediction" Foreground="{StaticResource TextPrimaryBrush}" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                        <TextBlock Text="{Binding SlaBreachPrediction}" FontSize="16" FontWeight="Bold" Foreground="#FF9800"/>
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource Card}" Margin="6,0,0,0" Padding="16">
+                    <StackPanel>
+                        <TextBlock Text="Trend Analysis" Foreground="{StaticResource TextPrimaryBrush}" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                        <TextBlock Foreground="{StaticResource TextSecondaryBrush}" FontSize="13">
+                            <Run Text="Direction: "/><Run Text="{Binding TrendDirection}" Foreground="{StaticResource AccentCyanBrush}" FontWeight="Bold"/>
+                        </TextBlock>
+                        <TextBlock Foreground="{StaticResource TextSecondaryBrush}" FontSize="13" Margin="0,4,0,0">
+                            <Run Text="Slope: "/><Run Text="{Binding RiskTrend, StringFormat='{}{0:F3}'}" Foreground="#AB47BC"/>
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+            </UniformGrid>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

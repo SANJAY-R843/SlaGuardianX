@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\SlaGuardianX.Data\SlaGuardianX.Data.csproj" />
+    <ProjectReference Include="..\SlaGuardianX.Models\SlaGuardianX.Models.csproj" />
+    <ProjectReference Include="..\SlaGuardianX.AI\SlaGuardianX.AI.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>

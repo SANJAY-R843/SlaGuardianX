@@ -1,0 +1,73 @@
+<UserControl x:Class="SlaGuardianX.UI.Views.Modules.CapacityPlanningView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="Transparent">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="24">
+        <StackPanel>
+            <TextBlock Text="Capacity Planning" Style="{StaticResource PageTitle}"/>
+            <TextBlock Text="Forecast growth and plan network capacity upgrades" Style="{StaticResource PageSubtitle}" Margin="0,0,0,16"/>
+            <Border Style="{StaticResource Card}" Margin="0,0,0,12" Padding="12">
+                <DockPanel>
+                    <TextBlock Text="{Binding PlanningStatus}" Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center"/>
+                    <Button Content="Generate Report" Command="{Binding GenerateCapacityReportCommand}" Style="{StaticResource PrimaryButton}" DockPanel.Dock="Right" HorizontalAlignment="Right"/>
+                </DockPanel>
+            </Border>
+            <UniformGrid Columns="4" Margin="0,0,0,12">
+                <Border Style="{StaticResource Card}" Margin="0,0,6,0" Padding="14">
+                    <StackPanel><TextBlock Text="CURRENT CAPACITY" Style="{StaticResource CardLabel}"/>
+                        <TextBlock Style="{StaticResource CardValue}" Foreground="{StaticResource AccentCyanBrush}"><Run Text="{Binding CurrentCapacity, StringFormat=F0}"/><Run Text=" Mbps" FontSize="12" Foreground="{StaticResource TextMutedBrush}"/></TextBlock></StackPanel>
+                </Border>
+                <Border Style="{StaticResource Card}" Margin="3,0" Padding="14">
+                    <StackPanel><TextBlock Text="PEAK USAGE" Style="{StaticResource CardLabel}"/>
+                        <TextBlock Style="{StaticResource CardValue}" Foreground="#FF9800"><Run Text="{Binding PeakUsage, StringFormat=F1}"/><Run Text=" Mbps" FontSize="12" Foreground="{StaticResource TextMutedBrush}"/></TextBlock></StackPanel>
+                </Border>
+                <Border Style="{StaticResource Card}" Margin="3,0" Padding="14">
+                    <StackPanel><TextBlock Text="UTILIZATION" Style="{StaticResource CardLabel}"/>
+                        <TextBlock Style="{StaticResource CardValue}" Foreground="#00E676"><Run Text="{Binding UtilizationPercent, StringFormat=F1}"/><Run Text="%" FontSize="14" Foreground="{StaticResource TextMutedBrush}"/></TextBlock></StackPanel>
+                </Border>
+                <Border Style="{StaticResource Card}" Margin="6,0,0,0" Padding="14">
+                    <StackPanel><TextBlock Text="HEADROOM" Style="{StaticResource CardLabel}"/>
+                        <TextBlock Style="{StaticResource CardValue}" Foreground="{StaticResource AccentPurpleBrush}"><Run Text="{Binding HeadroomMbps, StringFormat=F1}"/><Run Text=" Mbps" FontSize="12" Foreground="{StaticResource TextMutedBrush}"/></TextBlock></StackPanel>
+                </Border>
+            </UniformGrid>
+            <Grid Margin="0,0,0,12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Border Style="{StaticResource Card}" Grid.Column="0" Margin="0,0,6,0" Padding="18">
+                    <StackPanel>
+                        <TextBlock Text="Growth Projection" Foreground="{StaticResource TextPrimaryBrush}" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,12"/>
+                        <TextBlock Text="PROJECTED GROWTH" Foreground="{StaticResource TextMutedBrush}" FontSize="10" Margin="0,0,0,4"/>
+                        <TextBlock Foreground="#FF9800" FontSize="18" FontWeight="Bold" Margin="0,0,0,12"><Run Text="{Binding ProjectedGrowth, StringFormat=F1}"/><Run Text=" Mbps/month" FontSize="12" Foreground="{StaticResource TextMutedBrush}"/></TextBlock>
+                        <TextBlock Text="TIME TO EXHAUSTION" Foreground="{StaticResource TextMutedBrush}" FontSize="10" Margin="0,0,0,4"/>
+                        <TextBlock Text="{Binding TimeToExhaustion}" Foreground="#FF5252" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,12"/>
+                        <TextBlock Text="RECOMMENDED ACTION" Foreground="{StaticResource TextMutedBrush}" FontSize="10" Margin="0,0,0,4"/>
+                        <TextBlock Text="{Binding RecommendedUpgrade}" Foreground="#00E676" FontSize="13" TextWrapping="Wrap"/>
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource Card}" Grid.Column="1" Margin="6,0,0,0" Padding="18">
+                    <StackPanel>
+                        <TextBlock Text="Capacity Overview" Foreground="{StaticResource TextPrimaryBrush}" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,12"/>
+                        <StackPanel Margin="0,0,0,8">
+                            <DockPanel Margin="0,0,0,4">
+                                <TextBlock Text="Used" Foreground="{StaticResource TextMutedBrush}" FontSize="11"/>
+                                <TextBlock DockPanel.Dock="Right" HorizontalAlignment="Right" Foreground="{StaticResource AccentCyanBrush}" FontSize="11"><Run Text="{Binding PeakUsage, StringFormat=F1}"/><Run Text=" Mbps"/></TextBlock>
+                            </DockPanel>
+                            <ProgressBar Minimum="0" Maximum="100" Value="{Binding UtilizationPercent, Mode=OneWay}" Height="10" Background="#20FFFFFF" Foreground="{StaticResource AccentCyanBrush}" BorderThickness="0"/>
+                        </StackPanel>
+                        <StackPanel Margin="0,0,0,8">
+                            <DockPanel Margin="0,0,0,4">
+                                <TextBlock Text="Headroom" Foreground="{StaticResource TextMutedBrush}" FontSize="11"/>
+                                <TextBlock DockPanel.Dock="Right" HorizontalAlignment="Right" Foreground="#00E676" FontSize="11"><Run Text="{Binding HeadroomMbps, StringFormat=F1}"/><Run Text=" Mbps"/></TextBlock>
+                            </DockPanel>
+                            <ProgressBar Minimum="0" Maximum="100" Value="{Binding HeadroomPercent, Mode=OneWay}" Height="10" Background="#20FFFFFF" Foreground="#00E676" BorderThickness="0"/>
+                        </StackPanel>
+                        <TextBlock Text="PREDICTION CONFIDENCE" Foreground="{StaticResource TextMutedBrush}" FontSize="10" Margin="0,12,0,4"/>
+                        <TextBlock Text="{Binding PredictionConfidence}" Foreground="{StaticResource AccentPurpleBrush}" FontSize="14" FontWeight="SemiBold"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

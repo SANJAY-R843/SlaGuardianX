@@ -1,0 +1,215 @@
+﻿<Window x:Class="SlaGuardianX.UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SlaGuardianX.UI"
+        xmlns:views="clr-namespace:SlaGuardianX.UI.Views"
+        mc:Ignorable="d"
+        Title="SLA Guardian X" 
+        Height="1080" 
+        Width="1920"
+        Background="#FF1A1A2E"
+        Foreground="{StaticResource TextPrimaryBrush}"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        AllowsTransparency="False"
+        ResizeMode="CanResizeWithGrip"
+        FontFamily="Segoe UI">
+    
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="0" GlassFrameThickness="0" ResizeBorderThickness="6"/>
+    </WindowChrome.WindowChrome>
+
+    <Border CornerRadius="0">
+        <!-- Main background with subtle gradient for depth -->
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#FF1A1A2E" Offset="0"/>
+                <GradientStop Color="#FF22223A" Offset="0.4"/>
+                <GradientStop Color="#FF1C1C30" Offset="0.8"/>
+                <GradientStop Color="#FF181830" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.Background>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- ═══════════════════════════════════════════════ -->
+            <!-- GLASS TITLE BAR                                 -->
+            <!-- ═══════════════════════════════════════════════ -->
+            <Border Grid.Row="0" 
+                    Background="#10FFFFFF"
+                    BorderThickness="0,0,0,1" 
+                    BorderBrush="#20FFFFFF"
+                    MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+                <Grid Height="42">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="250"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- App title -->
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="18,0,0,0" Grid.Column="0">
+                        <Border Width="22" Height="22" CornerRadius="8" Margin="0,0,10,0">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#8000D4FF" Offset="0"/>
+                                    <GradientStop Color="#807C3AED" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <TextBlock Text="◈" Foreground="White" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <TextBlock Text="SLA Guardian X" FontSize="13" FontWeight="SemiBold" 
+                                   Foreground="{StaticResource TextPrimaryBrush}" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <!-- Breadcrumb -->
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="1" Margin="20,0,0,0">
+                        <TextBlock Text="{Binding CurrentModule.Category}" FontSize="11" 
+                                   Foreground="{StaticResource TextDimBrush}" VerticalAlignment="Center"/>
+                        <TextBlock Text="  ›  " FontSize="11" Foreground="{StaticResource TextDimBrush}" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding Breadcrumb}" FontSize="11" FontWeight="SemiBold" 
+                                   Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <!-- Chrome buttons -->
+                    <StackPanel Orientation="Horizontal" Grid.Column="2" VerticalAlignment="Stretch">
+                        <Button Content="─" Style="{StaticResource ChromeButton}" Click="Minimize_Click"/>
+                        <Button Content="☐" Style="{StaticResource ChromeButton}" Click="Maximize_Click"/>
+                        <Button Content="✕" Style="{StaticResource ChromeCloseButton}" Click="Close_Click"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- ═══════════════════════════════════════════════ -->
+            <!-- MAIN: GLASS SIDEBAR + CONTENT                   -->
+            <!-- ═══════════════════════════════════════════════ -->
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="250"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- ═══════════════════════════════════════ -->
+                <!-- GLASS SIDEBAR                            -->
+                <!-- ═══════════════════════════════════════ -->
+                <Border Grid.Column="0" 
+                        Background="#0CFFFFFF" 
+                        BorderThickness="0,0,1,0" 
+                        BorderBrush="#18FFFFFF">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- SIDEBAR HEADER -->
+                        <Border Grid.Row="0" Padding="22,20,22,16">
+                            <StackPanel>
+                                <TextBlock Text="SlaGuardianX" FontSize="18" FontWeight="Bold" 
+                                           Foreground="{StaticResource TextPrimaryBrush}"/>
+                                <TextBlock Text="ENTERPRISE NOC COCKPIT" FontSize="9" FontWeight="SemiBold" 
+                                           Foreground="{StaticResource TextDimBrush}" Margin="0,4,0,0"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- NAV ITEMS -->
+                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" 
+                                      HorizontalScrollBarVisibility="Disabled"
+                                      Padding="0,0,0,10">
+                            <ItemsControl ItemsSource="{Binding Modules}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button Command="{Binding DataContext.NavigateToCommand, 
+                                                         RelativeSource={RelativeSource AncestorType=Window}}"
+                                                CommandParameter="{Binding}"
+                                                Click="NavigationButton_Click"
+                                                Cursor="Hand"
+                                                HorizontalAlignment="Stretch">
+                                            <Button.Style>
+                                                <Style TargetType="Button">
+                                                    <Setter Property="Background" Value="Transparent"/>
+                                                    <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+                                                    <Setter Property="BorderThickness" Value="0"/>
+                                                    <Setter Property="Padding" Value="0"/>
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="Button">
+                                                                <Grid>
+                                                                    <!-- Left accent bar -->
+                                                                    <Border x:Name="accentBar" Width="3" HorizontalAlignment="Left" 
+                                                                            CornerRadius="0,2,2,0" Background="Transparent" Margin="0,3"/>
+                                                                    <!-- Glass content -->
+                                                                    <Border x:Name="bg" Background="Transparent" 
+                                                                            CornerRadius="10" Margin="8,1,14,1" Padding="14,10"
+                                                                            BorderThickness="0">
+                                                                        <StackPanel Orientation="Horizontal">
+                                                                            <TextBlock Text="{Binding Icon}" FontSize="15" 
+                                                                                       VerticalAlignment="Center" Margin="0,0,12,0"
+                                                                                       Opacity="0.8"/>
+                                                                            <TextBlock x:Name="titleText" Text="{Binding Title}" 
+                                                                                       FontSize="13" VerticalAlignment="Center"
+                                                                                       Foreground="{TemplateBinding Foreground}"/>
+                                                                        </StackPanel>
+                                                                    </Border>
+                                                                </Grid>
+                                                                <ControlTemplate.Triggers>
+                                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                                        <Setter TargetName="bg" Property="Background" Value="#12FFFFFF"/>
+                                                                        <Setter TargetName="bg" Property="BorderThickness" Value="1"/>
+                                                                        <Setter TargetName="bg" Property="BorderBrush" Value="#15FFFFFF"/>
+                                                                        <Setter TargetName="titleText" Property="Foreground" 
+                                                                                Value="{StaticResource TextPrimaryBrush}"/>
+                                                                    </Trigger>
+                                                                    <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                                        <Setter TargetName="accentBar" Property="Background" 
+                                                                                Value="{StaticResource AccentCyanBrush}"/>
+                                                                        <Setter TargetName="bg" Property="Background" Value="#18FFFFFF"/>
+                                                                        <Setter TargetName="bg" Property="BorderThickness" Value="1"/>
+                                                                        <Setter TargetName="bg" Property="BorderBrush" Value="#25FFFFFF"/>
+                                                                        <Setter TargetName="titleText" Property="Foreground" 
+                                                                                Value="{StaticResource AccentCyanBrush}"/>
+                                                                        <Setter TargetName="titleText" Property="FontWeight" Value="SemiBold"/>
+                                                                    </DataTrigger>
+                                                                </ControlTemplate.Triggers>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+
+                        <!-- SIDEBAR FOOTER -->
+                        <Border Grid.Row="2" Padding="22,14" BorderThickness="0,1,0,0" 
+                                BorderBrush="#15FFFFFF">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Ellipse Width="8" Height="8" Fill="{StaticResource AccentGreenBrush}" 
+                                             Margin="0,0,8,0" VerticalAlignment="Center"/>
+                                    <TextBlock Text="System Online" FontSize="11" 
+                                               Foreground="{StaticResource AccentGreenBrush}" VerticalAlignment="Center"/>
+                                </StackPanel>
+                                <TextBlock Text="v1.0.0 — Enterprise Edition" FontSize="10" 
+                                           Foreground="{StaticResource TextDimBrush}" Margin="16,5,0,0"/>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <!-- ═══════════════════════════════════════ -->
+                <!-- MAIN CONTENT AREA                        -->
+                <!-- ═══════════════════════════════════════ -->
+                <ContentControl Grid.Column="1" Content="{Binding CurrentView}" Margin="0"/>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

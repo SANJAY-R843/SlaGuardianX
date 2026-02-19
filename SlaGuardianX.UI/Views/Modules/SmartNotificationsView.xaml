@@ -1,0 +1,114 @@
+<UserControl x:Class="SlaGuardianX.UI.Views.Modules.SmartNotificationsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="Transparent">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="24">
+        <StackPanel>
+            <TextBlock Text="Smart Notifications" Style="{StaticResource PageTitle}"/>
+            <TextBlock Text="Intelligent alerting with configurable thresholds" Style="{StaticResource PageSubtitle}" Margin="0,0,0,16"/>
+            <Border Style="{StaticResource Card}" Margin="0,0,0,12" Padding="12">
+                <DockPanel>
+                    <TextBlock Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center"><Run Text="Notifications: "/><Run Text="{Binding NotificationCount}" Foreground="{StaticResource AccentCyanBrush}" FontWeight="SemiBold"/></TextBlock>
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" HorizontalAlignment="Right">
+                        <Button Content="Test Alert" Command="{Binding TestNotificationCommand}" Style="{StaticResource PrimaryButton}" Margin="0,0,6,0"/>
+                        <Button Content="Clear All" Command="{Binding ClearNotificationsCommand}" Style="{StaticResource DangerButton}"/>
+                    </StackPanel>
+                </DockPanel>
+            </Border>
+            <Grid Margin="0,0,0,12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Border Style="{StaticResource Card}" Grid.Column="0" Margin="0,0,6,0" Padding="18">
+                    <StackPanel>
+                        <TextBlock Text="Notification Channels" Foreground="{StaticResource TextPrimaryBrush}" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,12"/>
+                        <Border Background="#10FFFFFF" CornerRadius="4" Padding="10,8" Margin="0,2">
+                            <DockPanel>
+                                <TextBlock Text="Email Alerts" Foreground="{StaticResource TextPrimaryBrush}" FontSize="12" VerticalAlignment="Center"/>
+                                <TextBlock DockPanel.Dock="Right" HorizontalAlignment="Right" FontSize="12" FontWeight="SemiBold">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock"><Setter Property="Text" Value="OFF"/><Setter Property="Foreground" Value="#FF5252"/>
+                                            <Style.Triggers><DataTrigger Binding="{Binding EmailAlerts}" Value="True"><Setter Property="Text" Value="ON"/><Setter Property="Foreground" Value="#00E676"/></DataTrigger></Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </DockPanel>
+                        </Border>
+                        <Border Background="#10FFFFFF" CornerRadius="4" Padding="10,8" Margin="0,2">
+                            <DockPanel>
+                                <TextBlock Text="SMS Alerts" Foreground="{StaticResource TextPrimaryBrush}" FontSize="12" VerticalAlignment="Center"/>
+                                <TextBlock DockPanel.Dock="Right" HorizontalAlignment="Right" FontSize="12" FontWeight="SemiBold">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock"><Setter Property="Text" Value="OFF"/><Setter Property="Foreground" Value="#FF5252"/>
+                                            <Style.Triggers><DataTrigger Binding="{Binding SmsAlerts}" Value="True"><Setter Property="Text" Value="ON"/><Setter Property="Foreground" Value="#00E676"/></DataTrigger></Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </DockPanel>
+                        </Border>
+                        <Border Background="#10FFFFFF" CornerRadius="4" Padding="10,8" Margin="0,2">
+                            <DockPanel>
+                                <TextBlock Text="Slack Integration" Foreground="{StaticResource TextPrimaryBrush}" FontSize="12" VerticalAlignment="Center"/>
+                                <TextBlock DockPanel.Dock="Right" HorizontalAlignment="Right" FontSize="12" FontWeight="SemiBold">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock"><Setter Property="Text" Value="OFF"/><Setter Property="Foreground" Value="#FF5252"/>
+                                            <Style.Triggers><DataTrigger Binding="{Binding SlackIntegration}" Value="True"><Setter Property="Text" Value="ON"/><Setter Property="Foreground" Value="#00E676"/></DataTrigger></Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </DockPanel>
+                        </Border>
+                        <TextBlock Text="CRITICAL THRESHOLD" Foreground="{StaticResource TextMutedBrush}" FontSize="10" Margin="0,12,0,4"/>
+                        <TextBlock Foreground="#FF5252" FontSize="16" FontWeight="Bold"><Run Text="{Binding CriticalThreshold, StringFormat=F0}"/><Run Text=" Mbps" FontSize="12" Foreground="{StaticResource TextMutedBrush}"/></TextBlock>
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource Card}" Grid.Column="1" Margin="6,0,0,0" Padding="18">
+                    <StackPanel>
+                        <TextBlock Text="Live Notifications" Foreground="{StaticResource TextPrimaryBrush}" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                        <ListBox ItemsSource="{Binding Notifications}" Background="Transparent" BorderThickness="0" MaxHeight="350"
+                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="Padding" Value="0"/><Setter Property="Margin" Value="0,2"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ListBoxItem">
+                                                <Border CornerRadius="4" Padding="10,8">
+                                                    <Border.Style>
+                                                        <Style TargetType="Border"><Setter Property="Background" Value="#0A1628"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Severity}" Value="Critical"><Setter Property="Background" Value="#1AFF5252"/></DataTrigger>
+                                                                <DataTrigger Binding="{Binding Severity}" Value="Warning"><Setter Property="Background" Value="#1AFF9800"/></DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Border.Style>
+                                                    <StackPanel>
+                                                        <DockPanel>
+                                                            <TextBlock Text="{Binding Severity}" FontSize="10" FontWeight="Bold">
+                                                                <TextBlock.Style>
+                                                                    <Style TargetType="TextBlock"><Setter Property="Foreground" Value="#00E676"/>
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding Severity}" Value="Critical"><Setter Property="Foreground" Value="#FF5252"/></DataTrigger>
+                                                                            <DataTrigger Binding="{Binding Severity}" Value="Warning"><Setter Property="Foreground" Value="#FF9800"/></DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </TextBlock.Style>
+                                                            </TextBlock>
+                                                            <TextBlock Text="{Binding Timestamp}" Foreground="{StaticResource TextMutedBrush}" FontSize="10" DockPanel.Dock="Right" HorizontalAlignment="Right"/>
+                                                        </DockPanel>
+                                                        <TextBlock Text="{Binding Message}" Foreground="{StaticResource TextSecondaryBrush}" FontSize="11" TextWrapping="Wrap" Margin="0,2,0,0"/>
+                                                    </StackPanel>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                        </ListBox>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
