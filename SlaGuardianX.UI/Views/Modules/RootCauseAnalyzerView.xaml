@@ -2,10 +2,18 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              Background="Transparent">
-    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="24">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="24,20">
         <StackPanel>
-            <TextBlock Text="Root Cause Analyzer" Style="{StaticResource PageTitle}"/>
-            <TextBlock Text="AI-powered issue detection and root cause analysis" Style="{StaticResource PageSubtitle}" Margin="0,0,0,16"/>
+            <!-- Header -->
+            <StackPanel Margin="0,0,0,16">
+                <StackPanel Orientation="Horizontal">
+                    <Border Width="28" Height="28" CornerRadius="6" Background="#FFEF4444" Margin="0,0,12,0" VerticalAlignment="Center">
+                        <TextBlock Text="🔍" FontSize="14" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <TextBlock Text="Root Cause Analyzer" Style="{StaticResource PageTitle}" VerticalAlignment="Center"/>
+                </StackPanel>
+                <TextBlock Text="Real process-level root cause analysis" Style="{StaticResource PageSubtitle}" Margin="40,4,0,0"/>
+            </StackPanel>
             <Border Style="{StaticResource Card}" Margin="0,0,0,12" Padding="12">
                 <DockPanel>
                     <TextBlock Text="{Binding AnalysisStatus}" Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center"/>
@@ -14,16 +22,16 @@
             </Border>
             <UniformGrid Columns="3" Margin="0,0,0,12">
                 <Border Style="{StaticResource Card}" Margin="0,0,6,0" Padding="14">
-                    <StackPanel><TextBlock Text="AVG BANDWIDTH" Style="{StaticResource CardLabel}"/>
-                        <TextBlock Style="{StaticResource CardValue}" Foreground="{StaticResource AccentCyanBrush}"><Run Text="{Binding AvgBandwidth, StringFormat=F1}"/><Run Text=" Mbps" FontSize="12" Foreground="{StaticResource TextMutedBrush}"/></TextBlock></StackPanel>
+                    <StackPanel><TextBlock Text="CPU %" Style="{StaticResource CardLabel}"/>
+                        <TextBlock Style="{StaticResource CardValue}" Foreground="{StaticResource AccentCyanBrush}"><Run Text="{Binding AvgBandwidth, StringFormat=F1}"/><Run Text="%" FontSize="12" Foreground="{StaticResource TextMutedBrush}"/></TextBlock></StackPanel>
                 </Border>
                 <Border Style="{StaticResource Card}" Margin="3,0" Padding="14">
-                    <StackPanel><TextBlock Text="AVG LATENCY" Style="{StaticResource CardLabel}"/>
-                        <TextBlock Style="{StaticResource CardValue}" Foreground="#FF9800"><Run Text="{Binding AvgLatency, StringFormat=F1}"/><Run Text=" ms" FontSize="12" Foreground="{StaticResource TextMutedBrush}"/></TextBlock></StackPanel>
+                    <StackPanel><TextBlock Text="RAM %" Style="{StaticResource CardLabel}"/>
+                        <TextBlock Style="{StaticResource CardValue}" Foreground="#FF9800"><Run Text="{Binding AvgLatency, StringFormat=F1}"/><Run Text="%" FontSize="12" Foreground="{StaticResource TextMutedBrush}"/></TextBlock></StackPanel>
                 </Border>
                 <Border Style="{StaticResource Card}" Margin="6,0,0,0" Padding="14">
-                    <StackPanel><TextBlock Text="AVG PACKET LOSS" Style="{StaticResource CardLabel}"/>
-                        <TextBlock Style="{StaticResource CardValue}" Foreground="#FF5252"><Run Text="{Binding AvgPacketLoss, StringFormat=F2}"/><Run Text=" %" FontSize="12" Foreground="{StaticResource TextMutedBrush}"/></TextBlock></StackPanel>
+                    <StackPanel><TextBlock Text="DISK USED" Style="{StaticResource CardLabel}"/>
+                        <TextBlock Style="{StaticResource CardValue}" Foreground="#FF5252"><Run Text="{Binding AvgPacketLoss, StringFormat=F1}"/><Run Text="%" FontSize="12" Foreground="{StaticResource TextMutedBrush}"/></TextBlock></StackPanel>
                 </Border>
             </UniformGrid>
             <Grid Margin="0,0,0,12">

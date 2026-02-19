@@ -2,10 +2,18 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              Background="Transparent">
-    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="24">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="24,20">
         <StackPanel>
-            <TextBlock Text="Traffic Analyzer" Style="{StaticResource PageTitle}"/>
-            <TextBlock Text="Application-level traffic breakdown and deep packet analysis" Style="{StaticResource PageSubtitle}" Margin="0,0,0,16"/>
+            <!-- Header -->
+            <StackPanel Margin="0,0,0,16">
+                <StackPanel Orientation="Horizontal">
+                    <Border Width="28" Height="28" CornerRadius="6" Background="#FF0D9488" Margin="0,0,12,0" VerticalAlignment="Center">
+                        <TextBlock Text="⚙" FontSize="14" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <TextBlock Text="Process Analyzer" Style="{StaticResource PageTitle}" VerticalAlignment="Center"/>
+                </StackPanel>
+                <TextBlock Text="Per-process memory and CPU breakdown" Style="{StaticResource PageSubtitle}" Margin="40,4,0,0"/>
+            </StackPanel>
             <Border Style="{StaticResource Card}" Margin="0,0,0,12" Padding="12">
                 <DockPanel>
                     <TextBlock Text="{Binding TrafficStatus}" Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center"/>
@@ -14,21 +22,21 @@
             </Border>
             <UniformGrid Columns="3" Margin="0,0,0,12">
                 <Border Style="{StaticResource Card}" Margin="0,0,6,0" Padding="14">
-                    <StackPanel><TextBlock Text="TOTAL TRAFFIC" Style="{StaticResource CardLabel}"/>
-                        <TextBlock Style="{StaticResource CardValue}" Foreground="{StaticResource AccentCyanBrush}"><Run Text="{Binding TotalTrafficMbps, StringFormat=F1}"/><Run Text=" Mbps" FontSize="12" Foreground="{StaticResource TextMutedBrush}"/></TextBlock></StackPanel>
+                    <StackPanel><TextBlock Text="TOTAL RAM" Style="{StaticResource CardLabel}"/>
+                        <TextBlock Style="{StaticResource CardValue}" Foreground="{StaticResource AccentCyanBrush}"><Run Text="{Binding TotalTrafficMbps, StringFormat=F0}"/><Run Text=" MB" FontSize="12" Foreground="{StaticResource TextMutedBrush}"/></TextBlock></StackPanel>
                 </Border>
                 <Border Style="{StaticResource Card}" Margin="3,0" Padding="14">
-                    <StackPanel><TextBlock Text="ACTIVE FLOWS" Style="{StaticResource CardLabel}"/>
+                    <StackPanel><TextBlock Text="PROCESSES" Style="{StaticResource CardLabel}"/>
                         <TextBlock Text="{Binding ActiveFlows}" Style="{StaticResource CardValue}" Foreground="#00E676"/></StackPanel>
                 </Border>
                 <Border Style="{StaticResource Card}" Margin="6,0,0,0" Padding="14">
-                    <StackPanel><TextBlock Text="TOP APPLICATION" Style="{StaticResource CardLabel}"/>
+                    <StackPanel><TextBlock Text="TOP PROCESS" Style="{StaticResource CardLabel}"/>
                         <TextBlock Text="{Binding TopApp}" Style="{StaticResource CardValue}" Foreground="#FF9800" FontSize="16"/></StackPanel>
                 </Border>
             </UniformGrid>
             <Border Style="{StaticResource Card}" Padding="14">
                 <StackPanel>
-                    <TextBlock Text="Application Traffic Breakdown" Foreground="{StaticResource TextPrimaryBrush}" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                    <TextBlock Text="Process Memory Breakdown" Foreground="{StaticResource TextPrimaryBrush}" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,8"/>
                     <ItemsControl ItemsSource="{Binding AppTraffic}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
@@ -43,7 +51,7 @@
                                         <TextBlock Text="{Binding AppName}" Foreground="{StaticResource TextPrimaryBrush}" FontSize="12" FontWeight="SemiBold" VerticalAlignment="Center"/>
                                         <ProgressBar Grid.Column="1" Minimum="0" Maximum="100" Value="{Binding Percentage, Mode=OneWay}" Height="8" Margin="8,0"
                                                      Background="#20FFFFFF" Foreground="{StaticResource AccentCyanBrush}" BorderThickness="0"/>
-                                        <TextBlock Grid.Column="2" Text="{Binding TrafficMbps, StringFormat={}{0:F1} Mbps}" Foreground="{StaticResource AccentCyanBrush}" FontSize="11" VerticalAlignment="Center" TextAlignment="Right"/>
+                                        <TextBlock Grid.Column="2" Text="{Binding TrafficMbps, StringFormat={}{0:F0} MB}" Foreground="{StaticResource AccentCyanBrush}" FontSize="11" VerticalAlignment="Center" TextAlignment="Right"/>
                                         <TextBlock Grid.Column="3" Text="{Binding Percentage, StringFormat={}{0:F0}%}" Foreground="{StaticResource TextMutedBrush}" FontSize="11" VerticalAlignment="Center" TextAlignment="Right"/>
                                     </Grid>
                                 </Border>

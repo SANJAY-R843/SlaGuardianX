@@ -9,7 +9,7 @@
         Title="SLA Guardian X" 
         Height="1080" 
         Width="1920"
-        Background="#FF1A1A2E"
+        Background="#FF0D1117"
         Foreground="{StaticResource TextPrimaryBrush}"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
@@ -21,16 +21,7 @@
         <WindowChrome CaptionHeight="0" GlassFrameThickness="0" ResizeBorderThickness="6"/>
     </WindowChrome.WindowChrome>
 
-    <Border CornerRadius="0">
-        <!-- Main background with subtle gradient for depth -->
-        <Border.Background>
-            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                <GradientStop Color="#FF1A1A2E" Offset="0"/>
-                <GradientStop Color="#FF22223A" Offset="0.4"/>
-                <GradientStop Color="#FF1C1C30" Offset="0.8"/>
-                <GradientStop Color="#FF181830" Offset="1"/>
-            </LinearGradientBrush>
-        </Border.Background>
+    <Border CornerRadius="0" Background="#FF0D1117">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -38,41 +29,35 @@
             </Grid.RowDefinitions>
 
             <!-- ═══════════════════════════════════════════════ -->
-            <!-- GLASS TITLE BAR                                 -->
+            <!-- MINIMAL TITLE BAR                               -->
             <!-- ═══════════════════════════════════════════════ -->
             <Border Grid.Row="0" 
-                    Background="#10FFFFFF"
+                    Background="#FF0D1117"
                     BorderThickness="0,0,0,1" 
-                    BorderBrush="#20FFFFFF"
+                    BorderBrush="#FF21262D"
                     MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
-                <Grid Height="42">
+                <Grid Height="38">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="250"/>
+                        <ColumnDefinition Width="220"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
 
                     <!-- App title -->
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="18,0,0,0" Grid.Column="0">
-                        <Border Width="22" Height="22" CornerRadius="8" Margin="0,0,10,0">
-                            <Border.Background>
-                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                    <GradientStop Color="#8000D4FF" Offset="0"/>
-                                    <GradientStop Color="#807C3AED" Offset="1"/>
-                                </LinearGradientBrush>
-                            </Border.Background>
-                            <TextBlock Text="◈" Foreground="White" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="16,0,0,0" Grid.Column="0">
+                        <Border Width="20" Height="20" CornerRadius="4" Margin="0,0,10,0" Background="#FF0D9488">
+                            <TextBlock Text="◈" Foreground="White" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
-                        <TextBlock Text="SLA Guardian X" FontSize="13" FontWeight="SemiBold" 
+                        <TextBlock Text="SlaGuardianX" FontSize="13" FontWeight="SemiBold" 
                                    Foreground="{StaticResource TextPrimaryBrush}" VerticalAlignment="Center"/>
                     </StackPanel>
 
                     <!-- Breadcrumb -->
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="1" Margin="20,0,0,0">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="1" Margin="16,0,0,0">
                         <TextBlock Text="{Binding CurrentModule.Category}" FontSize="11" 
                                    Foreground="{StaticResource TextDimBrush}" VerticalAlignment="Center"/>
                         <TextBlock Text="  ›  " FontSize="11" Foreground="{StaticResource TextDimBrush}" VerticalAlignment="Center"/>
-                        <TextBlock Text="{Binding Breadcrumb}" FontSize="11" FontWeight="SemiBold" 
+                        <TextBlock Text="{Binding Breadcrumb}" FontSize="11" 
                                    Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center"/>
                     </StackPanel>
 
@@ -86,21 +71,21 @@
             </Border>
 
             <!-- ═══════════════════════════════════════════════ -->
-            <!-- MAIN: GLASS SIDEBAR + CONTENT                   -->
+            <!-- MAIN: SIDEBAR + CONTENT                         -->
             <!-- ═══════════════════════════════════════════════ -->
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="250"/>
+                    <ColumnDefinition Width="220"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
                 <!-- ═══════════════════════════════════════ -->
-                <!-- GLASS SIDEBAR                            -->
+                <!-- MINIMAL SIDEBAR                          -->
                 <!-- ═══════════════════════════════════════ -->
                 <Border Grid.Column="0" 
-                        Background="#0CFFFFFF" 
+                        Background="#FF0D1117" 
                         BorderThickness="0,0,1,0" 
-                        BorderBrush="#18FFFFFF">
+                        BorderBrush="#FF21262D">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -109,19 +94,19 @@
                         </Grid.RowDefinitions>
 
                         <!-- SIDEBAR HEADER -->
-                        <Border Grid.Row="0" Padding="22,20,22,16">
+                        <Border Grid.Row="0" Padding="16,16,16,12">
                             <StackPanel>
-                                <TextBlock Text="SlaGuardianX" FontSize="18" FontWeight="Bold" 
+                                <TextBlock Text="SlaGuardianX" FontSize="16" FontWeight="SemiBold" 
                                            Foreground="{StaticResource TextPrimaryBrush}"/>
-                                <TextBlock Text="ENTERPRISE NOC COCKPIT" FontSize="9" FontWeight="SemiBold" 
-                                           Foreground="{StaticResource TextDimBrush}" Margin="0,4,0,0"/>
+                                <TextBlock Text="S Y S T E M   C A R E   C O C K P I T" FontSize="8" FontWeight="Medium" 
+                                           Foreground="{StaticResource TextDimBrush}" Margin="0,2,0,0"/>
                             </StackPanel>
                         </Border>
 
                         <!-- NAV ITEMS -->
                         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" 
                                       HorizontalScrollBarVisibility="Disabled"
-                                      Padding="0,0,0,10">
+                                      Padding="0,0,0,8">
                             <ItemsControl ItemsSource="{Binding Modules}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
@@ -143,38 +128,34 @@
                                                                 <Grid>
                                                                     <!-- Left accent bar -->
                                                                     <Border x:Name="accentBar" Width="3" HorizontalAlignment="Left" 
-                                                                            CornerRadius="0,2,2,0" Background="Transparent" Margin="0,3"/>
-                                                                    <!-- Glass content -->
+                                                                            CornerRadius="0,2,2,0" Background="Transparent" Margin="0,2"/>
+                                                                    <!-- Content -->
                                                                     <Border x:Name="bg" Background="Transparent" 
-                                                                            CornerRadius="10" Margin="8,1,14,1" Padding="14,10"
+                                                                            CornerRadius="6" Margin="6,1,10,1" Padding="10,8"
                                                                             BorderThickness="0">
                                                                         <StackPanel Orientation="Horizontal">
-                                                                            <TextBlock Text="{Binding Icon}" FontSize="15" 
-                                                                                       VerticalAlignment="Center" Margin="0,0,12,0"
-                                                                                       Opacity="0.8"/>
+                                                                            <TextBlock Text="{Binding Icon}" FontSize="13" 
+                                                                                       VerticalAlignment="Center" Margin="0,0,10,0"
+                                                                                       Foreground="{StaticResource TextMutedBrush}"/>
                                                                             <TextBlock x:Name="titleText" Text="{Binding Title}" 
-                                                                                       FontSize="13" VerticalAlignment="Center"
+                                                                                       FontSize="12" VerticalAlignment="Center"
                                                                                        Foreground="{TemplateBinding Foreground}"/>
                                                                         </StackPanel>
                                                                     </Border>
                                                                 </Grid>
                                                                 <ControlTemplate.Triggers>
                                                                     <Trigger Property="IsMouseOver" Value="True">
-                                                                        <Setter TargetName="bg" Property="Background" Value="#12FFFFFF"/>
-                                                                        <Setter TargetName="bg" Property="BorderThickness" Value="1"/>
-                                                                        <Setter TargetName="bg" Property="BorderBrush" Value="#15FFFFFF"/>
+                                                                        <Setter TargetName="bg" Property="Background" Value="#FF161B22"/>
                                                                         <Setter TargetName="titleText" Property="Foreground" 
                                                                                 Value="{StaticResource TextPrimaryBrush}"/>
                                                                     </Trigger>
                                                                     <DataTrigger Binding="{Binding IsSelected}" Value="True">
                                                                         <Setter TargetName="accentBar" Property="Background" 
                                                                                 Value="{StaticResource AccentCyanBrush}"/>
-                                                                        <Setter TargetName="bg" Property="Background" Value="#18FFFFFF"/>
-                                                                        <Setter TargetName="bg" Property="BorderThickness" Value="1"/>
-                                                                        <Setter TargetName="bg" Property="BorderBrush" Value="#25FFFFFF"/>
+                                                                        <Setter TargetName="bg" Property="Background" Value="#FF161B22"/>
                                                                         <Setter TargetName="titleText" Property="Foreground" 
                                                                                 Value="{StaticResource AccentCyanBrush}"/>
-                                                                        <Setter TargetName="titleText" Property="FontWeight" Value="SemiBold"/>
+                                                                        <Setter TargetName="titleText" Property="FontWeight" Value="Medium"/>
                                                                     </DataTrigger>
                                                                 </ControlTemplate.Triggers>
                                                             </ControlTemplate>
@@ -189,17 +170,17 @@
                         </ScrollViewer>
 
                         <!-- SIDEBAR FOOTER -->
-                        <Border Grid.Row="2" Padding="22,14" BorderThickness="0,1,0,0" 
-                                BorderBrush="#15FFFFFF">
+                        <Border Grid.Row="2" Padding="16,12" BorderThickness="0,1,0,0" 
+                                BorderBrush="#FF21262D">
                             <StackPanel>
                                 <StackPanel Orientation="Horizontal">
-                                    <Ellipse Width="8" Height="8" Fill="{StaticResource AccentGreenBrush}" 
+                                    <Ellipse Width="6" Height="6" Fill="{StaticResource AccentGreenBrush}" 
                                              Margin="0,0,8,0" VerticalAlignment="Center"/>
                                     <TextBlock Text="System Online" FontSize="11" 
                                                Foreground="{StaticResource AccentGreenBrush}" VerticalAlignment="Center"/>
                                 </StackPanel>
-                                <TextBlock Text="v1.0.0 — Enterprise Edition" FontSize="10" 
-                                           Foreground="{StaticResource TextDimBrush}" Margin="16,5,0,0"/>
+                                <TextBlock Text="v1.0.0" FontSize="10" 
+                                           Foreground="{StaticResource TextDimBrush}" Margin="14,4,0,0"/>
                             </StackPanel>
                         </Border>
                     </Grid>
@@ -208,7 +189,9 @@
                 <!-- ═══════════════════════════════════════ -->
                 <!-- MAIN CONTENT AREA                        -->
                 <!-- ═══════════════════════════════════════ -->
-                <ContentControl Grid.Column="1" Content="{Binding CurrentView}" Margin="0"/>
+                <Border Grid.Column="1" Background="#FF161B22">
+                    <ContentControl Content="{Binding CurrentView}" Margin="0"/>
+                </Border>
             </Grid>
         </Grid>
     </Border>

@@ -2,18 +2,26 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              Background="Transparent">
-    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="24">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="24,20">
         <StackPanel>
-            <TextBlock Text="Multi-Site View" Style="{StaticResource PageTitle}"/>
-            <TextBlock Text="Cross-location network monitoring and comparison" Style="{StaticResource PageSubtitle}" Margin="0,0,0,16"/>
+            <!-- Header -->
+            <StackPanel Margin="0,0,0,16">
+                <StackPanel Orientation="Horizontal">
+                    <Border Width="28" Height="28" CornerRadius="6" Background="#FF3B82F6" Margin="0,0,12,0" VerticalAlignment="Center">
+                        <TextBlock Text="🌐" FontSize="14" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <TextBlock Text="Network Diagnostics" Style="{StaticResource PageTitle}" VerticalAlignment="Center"/>
+                </StackPanel>
+                <TextBlock Text="Network connectivity diagnostics and adapter analysis" Style="{StaticResource PageSubtitle}" Margin="40,4,0,0"/>
+            </StackPanel>
             <Border Style="{StaticResource Card}" Margin="0,0,0,12" Padding="12">
                 <TextBlock Text="{Binding StatusMessage}" Foreground="{StaticResource TextSecondaryBrush}"/>
             </Border>
             <UniformGrid Columns="4" Margin="0,0,0,12">
-                <Button Content="Chennai (HQ)" Command="{Binding SelectSiteCommand}" CommandParameter="Chennai (HQ)" Style="{StaticResource PrimaryButton}" Margin="0,0,6,0"/>
-                <Button Content="Mumbai (DR)" Command="{Binding SelectSiteCommand}" CommandParameter="Mumbai (DR)" Style="{StaticResource SecondaryButton}" Margin="3,0"/>
-                <Button Content="Bangalore" Command="{Binding SelectSiteCommand}" CommandParameter="Bangalore (Branch)" Style="{StaticResource SecondaryButton}" Margin="3,0"/>
-                <Button Content="Hyderabad" Command="{Binding SelectSiteCommand}" CommandParameter="Hyderabad (Edge)" Style="{StaticResource SecondaryButton}" Margin="6,0,0,0"/>
+                <Button Content="Full Scan" Command="{Binding SelectSiteCommand}" CommandParameter="full" Style="{StaticResource PrimaryButton}" Margin="0,0,6,0"/>
+                <Button Content="Gateway" Command="{Binding SelectSiteCommand}" CommandParameter="gateway" Style="{StaticResource SecondaryButton}" Margin="3,0"/>
+                <Button Content="DNS Test" Command="{Binding SelectSiteCommand}" CommandParameter="dns" Style="{StaticResource SecondaryButton}" Margin="3,0"/>
+                <Button Content="Adapters" Command="{Binding SelectSiteCommand}" CommandParameter="adapters" Style="{StaticResource SecondaryButton}" Margin="6,0,0,0"/>
             </UniformGrid>
             <Border Style="{StaticResource Card}" Margin="0,0,0,12" Padding="16">
                 <StackPanel>
@@ -25,19 +33,19 @@
             </Border>
             <UniformGrid Columns="4" Margin="0,0,0,12">
                 <Border Style="{StaticResource Card}" Margin="0,0,6,0" Padding="14">
-                    <StackPanel><TextBlock Text="BANDWIDTH" Style="{StaticResource CardLabel}"/>
-                        <TextBlock Style="{StaticResource CardValue}"><Run Text="{Binding SiteBandwidth, StringFormat='{}{0:F1}'}" Foreground="{StaticResource AccentCyanBrush}"/><Run Text=" Mbps" FontSize="11" Foreground="{StaticResource TextMutedBrush}"/></TextBlock></StackPanel>
+                    <StackPanel><TextBlock Text="EXT PING" Style="{StaticResource CardLabel}"/>
+                        <TextBlock Style="{StaticResource CardValue}"><Run Text="{Binding SiteBandwidth, StringFormat='{}{0:F0}'}" Foreground="{StaticResource AccentCyanBrush}"/><Run Text=" ms" FontSize="11" Foreground="{StaticResource TextMutedBrush}"/></TextBlock></StackPanel>
                 </Border>
                 <Border Style="{StaticResource Card}" Margin="3,0" Padding="14">
-                    <StackPanel><TextBlock Text="LATENCY" Style="{StaticResource CardLabel}"/>
+                    <StackPanel><TextBlock Text="GATEWAY" Style="{StaticResource CardLabel}"/>
                         <TextBlock Style="{StaticResource CardValue}"><Run Text="{Binding SiteLatency, StringFormat='{}{0:F0}'}" Foreground="#FF9800"/><Run Text=" ms" FontSize="11" Foreground="{StaticResource TextMutedBrush}"/></TextBlock></StackPanel>
                 </Border>
                 <Border Style="{StaticResource Card}" Margin="3,0" Padding="14">
-                    <StackPanel><TextBlock Text="COMPLIANCE" Style="{StaticResource CardLabel}"/>
-                        <TextBlock Style="{StaticResource CardValue}"><Run Text="{Binding SiteCompliance, StringFormat='{}{0:F1}'}" Foreground="#00E676"/><Run Text="%" FontSize="11" Foreground="{StaticResource TextMutedBrush}"/></TextBlock></StackPanel>
+                    <StackPanel><TextBlock Text="DNS TIME" Style="{StaticResource CardLabel}"/>
+                        <TextBlock Style="{StaticResource CardValue}"><Run Text="{Binding SiteCompliance, StringFormat='{}{0:F0}'}" Foreground="#00E676"/><Run Text=" ms" FontSize="11" Foreground="{StaticResource TextMutedBrush}"/></TextBlock></StackPanel>
                 </Border>
                 <Border Style="{StaticResource Card}" Margin="6,0,0,0" Padding="14">
-                    <StackPanel><TextBlock Text="DEVICES" Style="{StaticResource CardLabel}"/>
+                    <StackPanel><TextBlock Text="ADAPTERS" Style="{StaticResource CardLabel}"/>
                         <TextBlock Text="{Binding SiteDeviceCount}" Style="{StaticResource CardValue}" Foreground="{StaticResource AccentCyanBrush}"/></StackPanel>
                 </Border>
             </UniformGrid>

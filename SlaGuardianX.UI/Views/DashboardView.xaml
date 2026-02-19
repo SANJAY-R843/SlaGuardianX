@@ -5,109 +5,122 @@
              Foreground="{StaticResource TextPrimaryBrush}"
              FontFamily="Segoe UI">
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-        <StackPanel Margin="32,28,32,32">
+        <StackPanel Margin="24,20,24,24">
             
             <!-- Page Header -->
-            <TextBlock Text="Dashboard" Style="{StaticResource PageTitle}" Margin="0,0,0,4"/>
-            <TextBlock Text="Intelligent SLA Compliance Platform — real-time overview" Style="{StaticResource PageSubtitle}" Margin="0,0,0,24"/>
+            <StackPanel Margin="0,0,0,16">
+                <StackPanel Orientation="Horizontal">
+                    <Border Width="28" Height="28" CornerRadius="6" Background="#FF0D9488" Margin="0,0,12,0" VerticalAlignment="Center">
+                        <TextBlock Text="◈" FontSize="14" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <TextBlock Text="Dashboard" Style="{StaticResource PageTitle}" VerticalAlignment="Center"/>
+                </StackPanel>
+                <TextBlock Text="Intelligent SLA Compliance Platform — real-time overview" Style="{StaticResource PageSubtitle}" Margin="40,4,0,0"/>
+            </StackPanel>
 
             <!-- Status Banner -->
-            <Border Style="{StaticResource Card}" Margin="0,0,0,24">
+            <Border Style="{StaticResource Card}" Margin="0,0,0,16" Padding="14">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Ellipse Width="10" Height="10" Fill="{StaticResource AccentGreenBrush}" 
-                             VerticalAlignment="Center" Margin="0,0,14,0"/>
-                    <TextBlock Grid.Column="1" Text="{Binding CurrentStatus}" FontSize="13" 
+                    <Ellipse Width="8" Height="8" Fill="#FF22C55E" 
+                             VerticalAlignment="Center" Margin="0,0,12,0"/>
+                    <TextBlock Grid.Column="1" Text="{Binding CurrentStatus}" FontSize="12" 
                                Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center"/>
                 </Grid>
             </Border>
 
             <!-- Control Buttons -->
-            <StackPanel Orientation="Horizontal" Margin="0,0,0,28">
-                <Button Command="{Binding StartMonitoringCommand}" Content="START MONITORING" 
-                        Style="{StaticResource PrimaryButton}" Margin="0,0,12,0"/>
-                <Button Command="{Binding StopMonitoringCommand}" Content="STOP MONITORING" 
-                        Style="{StaticResource DangerButton}" Margin="0,0,12,0"/>
-                <Button Command="{Binding EnableOptimizationCommand}" Content="ENABLE OPTIMIZATION" 
-                        Style="{StaticResource AccentPurpleButton}" Margin="0,0,12,0"/>
-                <Button Command="{Binding ClearDataCommand}" Content="CLEAR DATA" 
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+                <Button Command="{Binding StartMonitoringCommand}" Content="▶ Start Monitoring" 
+                        Style="{StaticResource PrimaryButton}" Margin="0,0,8,0"/>
+                <Button Command="{Binding StopMonitoringCommand}" Content="◼ Stop Monitoring" 
+                        Style="{StaticResource DangerButton}" Margin="0,0,8,0"/>
+                <Button Command="{Binding EnableOptimizationCommand}" Content="⚡ Enable Optimization" 
+                        Style="{StaticResource AccentPurpleButton}" Margin="0,0,8,0"/>
+                <Button Command="{Binding ClearDataCommand}" Content="Clear Data" 
                         Style="{StaticResource SecondaryButton}"/>
             </StackPanel>
 
             <!-- Key Metrics Row -->
-            <Grid Margin="0,0,0,24">
+            <Grid Margin="0,0,0,16">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="12"/>
+                    <ColumnDefinition Width="10"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="12"/>
+                    <ColumnDefinition Width="10"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="12"/>
+                    <ColumnDefinition Width="10"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
                 <!-- Bandwidth -->
-                <Border Grid.Column="0" Style="{StaticResource Card}">
-                    <Border.BorderBrush>
-                        <SolidColorBrush Color="{StaticResource AccentCyan}" Opacity="0.3"/>
-                    </Border.BorderBrush>
+                <Border Grid.Column="0" Style="{StaticResource Card}" Padding="14">
                     <StackPanel>
-                        <TextBlock Text="CURRENT BANDWIDTH" Style="{StaticResource CardLabel}"/>
-                        <TextBlock Text="{Binding CurrentBandwidth}" FontSize="32" FontWeight="Bold" 
-                                   Foreground="{StaticResource AccentCyanBrush}" Margin="0,8,0,0"/>
-                        <TextBlock Text="Mbps" Style="{StaticResource CardUnit}"/>
+                        <TextBlock Text="CURRENT BANDWIDTH" Style="{StaticResource CardLabel}" FontSize="10"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                            <TextBlock Text="{Binding CurrentBandwidth}" FontSize="28" FontWeight="SemiBold" 
+                                       Foreground="{StaticResource TextPrimaryBrush}"/>
+                            <TextBlock Text=" Mbps" FontSize="12" Foreground="{StaticResource TextMutedBrush}" 
+                                       VerticalAlignment="Bottom" Margin="0,0,0,4"/>
+                        </StackPanel>
                     </StackPanel>
                 </Border>
 
                 <!-- Compliance -->
-                <Border Grid.Column="2" Style="{StaticResource Card}">
-                    <Border.BorderBrush>
-                        <SolidColorBrush Color="{StaticResource AccentGreen}" Opacity="0.3"/>
-                    </Border.BorderBrush>
+                <Border Grid.Column="2" Style="{StaticResource Card}" Padding="14">
                     <StackPanel>
-                        <TextBlock Text="SLA COMPLIANCE" Style="{StaticResource CardLabel}"/>
-                        <TextBlock Text="{Binding SlaCompliancePercentage}" FontSize="32" FontWeight="Bold" 
-                                   Foreground="{StaticResource AccentGreenBrush}" Margin="0,8,0,0"/>
-                        <TextBlock Text="Percent" Style="{StaticResource CardUnit}"/>
+                        <TextBlock Text="SLA COMPLIANCE" Style="{StaticResource CardLabel}" FontSize="10"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                            <TextBlock Text="{Binding SlaCompliancePercentage}" FontSize="28" FontWeight="SemiBold" 
+                                       Foreground="#FF22C55E"/>
+                            <TextBlock Text="%" FontSize="12" Foreground="{StaticResource TextMutedBrush}" 
+                                       VerticalAlignment="Bottom" Margin="0,0,0,4"/>
+                        </StackPanel>
                     </StackPanel>
                 </Border>
 
                 <!-- Risk -->
-                <Border Grid.Column="4" Style="{StaticResource Card}">
-                    <Border.BorderBrush>
-                        <SolidColorBrush Color="{StaticResource AccentOrange}" Opacity="0.3"/>
-                    </Border.BorderBrush>
+                <Border Grid.Column="4" Style="{StaticResource Card}" Padding="14">
                     <StackPanel>
-                        <TextBlock Text="RISK SCORE" Style="{StaticResource CardLabel}"/>
-                        <TextBlock Text="{Binding RiskScore}" FontSize="32" FontWeight="Bold" 
-                                   Foreground="{StaticResource AccentOrangeBrush}" Margin="0,8,0,0"/>
-                        <TextBlock Text="{Binding RiskLevel}" FontSize="11" FontWeight="SemiBold" 
-                                   Foreground="{StaticResource AccentOrangeBrush}" Margin="0,2,0,0"/>
+                        <TextBlock Text="RISK SCORE" Style="{StaticResource CardLabel}" FontSize="10"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                            <TextBlock Text="{Binding RiskScore}" FontSize="28" FontWeight="SemiBold" 
+                                       Foreground="#FFF59E0B"/>
+                            <TextBlock Text=" / 100" FontSize="12" Foreground="{StaticResource TextMutedBrush}" 
+                                       VerticalAlignment="Bottom" Margin="0,0,0,4"/>
+                        </StackPanel>
+                        <TextBlock Text="{Binding RiskLevel}" FontSize="10" FontWeight="Medium" 
+                                   Foreground="{StaticResource TextMutedBrush}" Margin="0,2,0,0"/>
                     </StackPanel>
                 </Border>
 
                 <!-- Optimized BW -->
-                <Border Grid.Column="6" Style="{StaticResource Card}">
-                    <Border.BorderBrush>
-                        <SolidColorBrush Color="{StaticResource AccentPurple}" Opacity="0.3"/>
-                    </Border.BorderBrush>
+                <Border Grid.Column="6" Style="{StaticResource Card}" Padding="14">
                     <StackPanel>
-                        <TextBlock Text="OPTIMIZED BW" Style="{StaticResource CardLabel}"/>
-                        <TextBlock Text="{Binding OptimizedBandwidth}" FontSize="32" FontWeight="Bold" 
-                                   Foreground="{StaticResource AccentPurpleBrush}" Margin="0,8,0,0"/>
-                        <TextBlock Text="Mbps" Style="{StaticResource CardUnit}"/>
+                        <TextBlock Text="OPTIMIZED BW" Style="{StaticResource CardLabel}" FontSize="10"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                            <TextBlock Text="{Binding OptimizedBandwidth}" FontSize="28" FontWeight="SemiBold" 
+                                       Foreground="{StaticResource TextPrimaryBrush}"/>
+                            <TextBlock Text=" Mbps" FontSize="12" Foreground="{StaticResource TextMutedBrush}" 
+                                       VerticalAlignment="Bottom" Margin="0,0,0,4"/>
+                        </StackPanel>
                     </StackPanel>
                 </Border>
             </Grid>
 
             <!-- Monitoring Status Card -->
-            <Border Style="{StaticResource Card}" Margin="0,0,0,24">
+            <Border Style="{StaticResource Card}" Margin="0,0,0,16" Padding="14">
                 <StackPanel>
-                    <TextBlock Text="MONITORING STATUS" FontSize="13" FontWeight="SemiBold" 
-                               Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,0,18"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,14">
+                        <TextBlock Text="Monitoring Status" FontSize="13" FontWeight="SemiBold" 
+                                   Foreground="{StaticResource TextPrimaryBrush}"/>
+                        <Border Style="{StaticResource BadgeAccent}" Margin="10,0,0,0" VerticalAlignment="Center">
+                            <TextBlock Text="{Binding TotalMetricsCount}" FontSize="10" FontWeight="Medium" Foreground="White"/>
+                        </Border>
+                    </StackPanel>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -116,31 +129,31 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <StackPanel Grid.Column="0">
-                            <TextBlock Text="Total Data Points" Style="{StaticResource CardLabel}"/>
-                            <TextBlock Text="{Binding TotalMetricsCount}" FontSize="20" FontWeight="Bold" 
-                                       Foreground="{StaticResource AccentCyanBrush}" Margin="0,6,0,0"/>
+                            <TextBlock Text="Total Data Points" Style="{StaticResource CardLabel}" FontSize="10"/>
+                            <TextBlock Text="{Binding TotalMetricsCount}" FontSize="18" FontWeight="SemiBold" 
+                                       Foreground="{StaticResource TextPrimaryBrush}" Margin="0,4,0,0"/>
                         </StackPanel>
                         <StackPanel Grid.Column="1">
-                            <TextBlock Text="Avg Bandwidth" Style="{StaticResource CardLabel}"/>
-                            <TextBlock Text="{Binding AverageBandwidth}" FontSize="20" FontWeight="Bold" 
-                                       Foreground="{StaticResource AccentGreenBrush}" Margin="0,6,0,0"/>
+                            <TextBlock Text="Avg Bandwidth" Style="{StaticResource CardLabel}" FontSize="10"/>
+                            <TextBlock Text="{Binding AverageBandwidth}" FontSize="18" FontWeight="SemiBold" 
+                                       Foreground="{StaticResource TextPrimaryBrush}" Margin="0,4,0,0"/>
                         </StackPanel>
                         <StackPanel Grid.Column="2">
-                            <TextBlock Text="Predicted BW" Style="{StaticResource CardLabel}"/>
-                            <TextBlock Text="{Binding PredictedBandwidth}" FontSize="20" FontWeight="Bold" 
-                                       Foreground="{StaticResource AccentPurpleBrush}" Margin="0,6,0,0"/>
+                            <TextBlock Text="Predicted BW" Style="{StaticResource CardLabel}" FontSize="10"/>
+                            <TextBlock Text="{Binding PredictedBandwidth}" FontSize="18" FontWeight="SemiBold" 
+                                       Foreground="{StaticResource TextPrimaryBrush}" Margin="0,4,0,0"/>
                         </StackPanel>
                         <StackPanel Grid.Column="3">
-                            <TextBlock Text="Monitoring" Style="{StaticResource CardLabel}"/>
-                            <TextBlock Text="{Binding IsMonitoring}" FontSize="20" FontWeight="Bold" 
-                                       Foreground="{StaticResource AccentOrangeBrush}" Margin="0,6,0,0"/>
+                            <TextBlock Text="Monitoring" Style="{StaticResource CardLabel}" FontSize="10"/>
+                            <TextBlock Text="{Binding IsMonitoring}" FontSize="18" FontWeight="SemiBold" 
+                                       Foreground="#FF22C55E" Margin="0,4,0,0"/>
                         </StackPanel>
                     </Grid>
                 </StackPanel>
             </Border>
 
             <!-- Footer -->
-            <TextBlock Text="SLA Guardian X v1.0 — Enterprise-Grade SLA Compliance Platform" FontSize="11" 
+            <TextBlock Text="SLA Guardian X v1.0 — Enterprise-Grade SLA Compliance Platform" FontSize="10" 
                        Foreground="{StaticResource TextDimBrush}" TextAlignment="Center"/>
         </StackPanel>
     </ScrollViewer>

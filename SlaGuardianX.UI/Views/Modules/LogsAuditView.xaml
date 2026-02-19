@@ -2,10 +2,18 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              Background="Transparent">
-    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="24">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="24,20">
         <StackPanel>
-            <TextBlock Text="Logs &amp; Audit Trail" Style="{StaticResource PageTitle}"/>
-            <TextBlock Text="System event logs and audit records" Style="{StaticResource PageSubtitle}" Margin="0,0,0,16"/>
+            <!-- Header -->
+            <StackPanel Margin="0,0,0,16">
+                <StackPanel Orientation="Horizontal">
+                    <Border Width="28" Height="28" CornerRadius="6" Background="#FF6E7681" Margin="0,0,12,0" VerticalAlignment="Center">
+                        <TextBlock Text="📝" FontSize="14" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <TextBlock Text="Logs &amp; Audit Trail" Style="{StaticResource PageTitle}" VerticalAlignment="Center"/>
+                </StackPanel>
+                <TextBlock Text="System event logs and audit records" Style="{StaticResource PageSubtitle}" Margin="40,4,0,0"/>
+            </StackPanel>
             <Border Style="{StaticResource Card}" Margin="0,0,0,12" Padding="12">
                 <DockPanel>
                     <TextBlock Text="{Binding LogStatus}" Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center"/>

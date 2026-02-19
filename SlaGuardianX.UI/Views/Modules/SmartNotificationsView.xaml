@@ -2,10 +2,18 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              Background="Transparent">
-    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="24">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="24,20">
         <StackPanel>
-            <TextBlock Text="Smart Notifications" Style="{StaticResource PageTitle}"/>
-            <TextBlock Text="Intelligent alerting with configurable thresholds" Style="{StaticResource PageSubtitle}" Margin="0,0,0,16"/>
+            <!-- Header -->
+            <StackPanel Margin="0,0,0,16">
+                <StackPanel Orientation="Horizontal">
+                    <Border Width="28" Height="28" CornerRadius="6" Background="#FFF59E0B" Margin="0,0,12,0" VerticalAlignment="Center">
+                        <TextBlock Text="🔔" FontSize="14" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <TextBlock Text="Smart Notifications" Style="{StaticResource PageTitle}" VerticalAlignment="Center"/>
+                </StackPanel>
+                <TextBlock Text="Intelligent alerting with configurable thresholds" Style="{StaticResource PageSubtitle}" Margin="40,4,0,0"/>
+            </StackPanel>
             <Border Style="{StaticResource Card}" Margin="0,0,0,12" Padding="12">
                 <DockPanel>
                     <TextBlock Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center"><Run Text="Notifications: "/><Run Text="{Binding NotificationCount}" Foreground="{StaticResource AccentCyanBrush}" FontWeight="SemiBold"/></TextBlock>
@@ -60,7 +68,7 @@
                             </DockPanel>
                         </Border>
                         <TextBlock Text="CRITICAL THRESHOLD" Foreground="{StaticResource TextMutedBrush}" FontSize="10" Margin="0,12,0,4"/>
-                        <TextBlock Foreground="#FF5252" FontSize="16" FontWeight="Bold"><Run Text="{Binding CriticalThreshold, StringFormat=F0}"/><Run Text=" Mbps" FontSize="12" Foreground="{StaticResource TextMutedBrush}"/></TextBlock>
+                        <TextBlock Foreground="#FF5252" FontSize="16" FontWeight="Bold"><Run Text="{Binding CriticalThreshold, StringFormat=F0}"/><Run Text="% CPU" FontSize="12" Foreground="{StaticResource TextMutedBrush}"/></TextBlock>
                     </StackPanel>
                 </Border>
                 <Border Style="{StaticResource Card}" Grid.Column="1" Margin="6,0,0,0" Padding="18">
