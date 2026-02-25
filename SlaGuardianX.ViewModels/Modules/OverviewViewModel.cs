@@ -1,126 +1,120 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SlaGuardianX.Services;
-using SlaGuardianX.Models;
 using System.Collections.ObjectModel;
 
 namespace SlaGuardianX.ViewModels.Modules;
 
-/// <summary>
-/// Overview / Dashboard module ViewModel
-/// Main NOC home screen with key metrics at a glance
-/// </summary>
+// ═══════════════════════════════════════════════════════════
+// OVERVIEW DASHBOARD — Real system telemetry aggregate
+// ═══════════════════════════════════════════════════════════
 public partial class OverviewViewModel : ObservableObject
 {
-    private readonly SlaService _slaService;
-    private readonly OptimizationService _optimizationService;
-    private readonly PredictionService _predictionService;
-    private readonly TrafficSimulatorService _trafficService;
+    private readonly SystemMonitoringService _monitor;
+    private readonly HealthRuleEngine _healthEngine;
+    private readonly AlertEngine _alertEngine;
+    private readonly LoggingService _logger;
 
     [ObservableProperty] private double currentBandwidth;
     [ObservableProperty] private double slaCompliancePercentage = 100;
     [ObservableProperty] private double riskScore;
-    [ObservableProperty] private string optimizationStatus = "Inactive";
-    [ObservableProperty] private int activeAlertCount;
-    [ObservableProperty] private bool isMonitoring;
-    [ObservableProperty] private string statusMessage = "System ready";
+    [ObservableProperty] private double predictedBandwidth;
     [ObservableProperty] private double currentLatency;
     [ObservableProperty] private double currentPacketLoss;
-    [ObservableProperty] private double currentUptime = 99.9;
+    [ObservableProperty] private double currentUptime;
+    [ObservableProperty] private string optimizationStatus = "Idle";
+    [ObservableProperty] private int activeAlertCount;
+    [ObservableProperty] private string statusMessage = "Initializing system scan...";
+    [ObservableProperty] private string lastUpdated = "-";
     [ObservableProperty] private int totalDataPoints;
-    [ObservableProperty] private string lastUpdated = "—";
-    [ObservableProperty] private double predictedBandwidth;
 
-    public OverviewViewModel(SlaService slaService, OptimizationService optimizationService,
-        PredictionService predictionService, TrafficSimulatorService trafficService)
+    public OverviewViewModel(SystemMonitoringService monitor, HealthRuleEngine healthEngine,
+        AlertEngine alertEngine, LoggingService logger)
     {
-        _slaService = slaService;
-        _optimizationService = optimizationService;
-        _predictionService = predictionService;
-        _trafficService = trafficService;
-        _trafficService.MetricGenerated += OnMetricGenerated;
-        InitializeAsync();
-    }
+        _monitor = monitor;
+        _healthEngine = healthEngine;
+        _alertEngine = alertEngine;
+        _logger = logger;
 
-    private async void InitializeAsync()
-    {
-        await RefreshMetricsAsync();
-    }
-
-    private void OnMetricGenerated(object? sender, NetworkMetric metric)
-    {
-        System.Windows.Application.Current?.Dispatcher?.Invoke(async () =>
+        _monitor.SnapshotCaptured += OnSnapshot;
+        _alertEngine.AlertFired += (_, _) =>
         {
-            CurrentBandwidth = Math.Round(metric.Bandwidth, 2);
-            CurrentLatency = Math.Round(metric.Latency, 1);
-            CurrentPacketLoss = Math.Round(metric.PacketLoss, 3);
-            CurrentUptime = Math.Round(metric.Uptime, 2);
-            LastUpdated = DateTime.Now.ToString("HH:mm:ss");
-            TotalDataPoints++;
-
-            // Calculate SLA on each new metric
-            try
+            System.Windows.Application.Current?.Dispatcher?.Invoke(() =>
             {
-                var slaResult = await _slaService.CalculateSlaAsync(metric);
-                SlaCompliancePercentage = Math.Round(slaResult.CompliancePercentage, 1);
-                RiskScore = Math.Round(slaResult.RiskScore, 1);
-                if (slaResult.IsViolated) ActiveAlertCount++;
-            }
-            catch { }
+                ActiveAlertCount = _alertEngine.Alerts.Count;
+            });
+        };
+
+        if (!_monitor.IsMonitoring)
+            _monitor.Start(2000);
+
+        LoadInitialAsync();
+    }
+
+    private async void LoadInitialAsync()
+    {
+        try
+        {
+            var snap = await Task.Run(() => _monitor.CollectMetrics());
+            ApplySnapshot(snap);
+            _logger.Log(LogLevel.Info, "Overview", "Initial system scan completed.");
+        }
+        catch (Exception ex) { StatusMessage = "Error: " + ex.Message; }
+    }
+
+    private void OnSnapshot(object? sender, SystemSnapshot snap)
+    {
+        System.Windows.Application.Current?.Dispatcher?.Invoke(() =>
+        {
+            ApplySnapshot(snap);
+            _alertEngine.ProcessSnapshot(snap);
         });
+    }
+
+    private void ApplySnapshot(SystemSnapshot snap)
+    {
+        // Map real metrics to card bindings
+        CurrentBandwidth = snap.NetworkDownloadMbps;           // Download speed
+        CurrentLatency = Math.Round(snap.CpuPercent, 1);       // CPU %
+        CurrentPacketLoss = Math.Round(snap.RamPercent, 1);    // RAM %
+        CurrentUptime = Math.Round(snap.DiskUsagePercent, 1);  // Disk used %
+        PredictedBandwidth = snap.NetworkUploadMbps;           // Upload speed
+
+        // Health
+        var report = _healthEngine.Evaluate(snap);
+        SlaCompliancePercentage = report.HealthScore;
+        RiskScore = 100 - report.HealthScore;
+        ActiveAlertCount = _alertEngine.Alerts.Count;
+
+        TotalDataPoints++;
+        LastUpdated = DateTime.Now.ToString("HH:mm:ss");
+
+        OptimizationStatus = report.Status == HealthStatus.Healthy ? "All Clear" :
+                             report.Status == HealthStatus.Warning ? "Attention" : "Action Required";
+
+        StatusMessage = $"CPU {snap.CpuPercent:F0}% | RAM {snap.RamPercent:F0}% | Disk {snap.DiskUsagePercent:F0}% | ↓{snap.NetworkDownloadMbps:F1} Mbps | {report.Status}";
     }
 
     [RelayCommand]
     public void StartMonitoring()
     {
-        _trafficService.Start();
-        IsMonitoring = true;
+        _monitor.Start(2000);
+        _logger.Log(LogLevel.Action, "Overview", "Monitoring started.");
         StatusMessage = "Live monitoring active";
     }
 
     [RelayCommand]
     public void StopMonitoring()
     {
-        _trafficService.Stop();
-        IsMonitoring = false;
+        _monitor.Stop();
+        _logger.Log(LogLevel.Action, "Overview", "Monitoring stopped.");
         StatusMessage = "Monitoring paused";
     }
 
     [RelayCommand]
     public async Task RefreshMetrics()
     {
-        await RefreshMetricsAsync();
-    }
-
-    private async Task RefreshMetricsAsync()
-    {
-        try
-        {
-            var metrics = await _slaService.GetRecentResultsAsync(1);
-            if (metrics.Any())
-            {
-                var latest = metrics.First();
-                CurrentBandwidth = Math.Round(latest.CurrentBandwidth, 2);
-                SlaCompliancePercentage = Math.Round(latest.CompliancePercentage, 1);
-                RiskScore = Math.Round(latest.RiskScore, 1);
-                OptimizationStatus = latest.IsOptimized ? "Active" : "Inactive";
-            }
-
-            TotalDataPoints = await _trafficService.GetMetricCountAsync();
-            OptimizationStatus = _optimizationService.IsOptimizationEnabled ? "Active" : "Inactive";
-            IsMonitoring = false; // will be true if timer is running
-
-            var prediction = await _predictionService.PredictBandwidthAsync(50);
-            if (prediction.HasValidPrediction)
-            {
-                PredictedBandwidth = Math.Round(prediction.PredictedBandwidth, 2);
-            }
-
-            StatusMessage = "Dashboard refreshed";
-        }
-        catch (Exception ex)
-        {
-            StatusMessage = "Error: " + ex.Message;
-        }
+        var snap = await Task.Run(() => _monitor.CollectMetrics());
+        ApplySnapshot(snap);
     }
 }

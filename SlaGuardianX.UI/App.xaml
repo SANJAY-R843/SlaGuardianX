@@ -8,6 +8,10 @@
                 <ResourceDictionary Source="Themes/DarkTheme.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <local:OptimizationColorConverter x:Key="OptimizationColorConverter"/>
+            <local:CpuHeatMapConverter x:Key="CpuHeatMapConverter"/>
+            <local:RamHeatMapConverter x:Key="RamHeatMapConverter"/>
+            <local:ServiceStatusColorConverter x:Key="ServiceStatusColorConverter"/>
+            <local:BoolToStatusConverter x:Key="BoolToStatusConverter"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
